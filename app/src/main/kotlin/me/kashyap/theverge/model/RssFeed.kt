@@ -10,7 +10,10 @@ import theverge.model.FeedItem
 [Root(name = "feed", strict = false)]
 public class RssFeed {
 
-    [ElementList( inline = true)]
-    var feeds: List<FeedItem>? = null;
+    var title: String? = null;
+
+    var feeds: List<FeedItem>? = null
+        [ElementList(inline = true)] set
+        [ElementList(inline = true)] get
 
 }

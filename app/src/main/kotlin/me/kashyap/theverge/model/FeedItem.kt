@@ -11,12 +11,18 @@ import javax.xml.parsers.DocumentBuilder
  */
 [Root(name = "entry", strict = false)]
 data public class FeedItem (
-        title: String?,
-        [Element(name = "id")] url: String
 ) {
 
-    [Element(name = "content")]
-    public var content: String? = null;
+    public var content: String? = null
+        [Element(name = "content")] set
+        [Element(name = "content")] get
 
 
+    var title: String? = null
+    //    [Element(name = "title")] title: String?,
+    //    [Element(name = "id")] id: String?
+
+    var url: String? = null
+        [Element(name = "id")] set
+        [Element(name = "id")] get
 }

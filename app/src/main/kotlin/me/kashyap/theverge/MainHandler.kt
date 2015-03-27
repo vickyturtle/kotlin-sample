@@ -8,7 +8,7 @@ import javax.inject.Inject
 /**
  * Created on 3/24/2015.
  */
-public class MainHandler[Inject](appContext: Context) : MainViewHandler {
+public class MainHandler : MainViewHandler {
 
 
     override fun onActivityPaused(activity: Activity?) {

@@ -10,6 +10,6 @@ import rx.Observable
  */
 public trait RssService {
 
-    [GET("/rss/index.xml")]
+    [GET("/rss/full.xml")]
     public fun fetchFeed([Query("page")] page : Int) : Observable<RssFeed>;
 }

@@ -13,8 +13,8 @@ import dagger.Provides;
         complete = false)
 public class UiModule {
     @Provides
-    public MainViewHandler providesMainViewHandler(MainHandler handler) {
-        return handler;
+    public MainViewHandler providesMainViewHandler() {
+        return new MainHandler();
     }
 
 }

@@ -18,7 +18,7 @@ public class ApiModule {
     @Singleton
     @Provides
     public RestAdapter providesRestAdapter(Converter converter, Endpoint endpoint) {
-        return new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL)
+        return new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.BASIC)
                 .setEndpoint(endpoint)
                 .setConverter(converter)
                 .build();

@@ -2,10 +2,17 @@ package me.kashyap.theverge
 
 import android.support.v7.app.ActionBarActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import me.kashyap.theverge.model.RssFeed
 import me.kashyap.theverge.rest.RssService
 import retrofit.RestAdapter
+import rx.Scheduler
+import rx.Subscription
+import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Action1
+import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -24,7 +31,25 @@ public class MainActivity : BaseActivity() {
     }
 
     override fun onResume() {
-        //        service?.fetchFeed(1)
+        super.onResume();
+        Log.d("MainActivity", " On Resume Called ")
+        service = getUiComponent().getRssService();
+        //        var subscription: Subscription = Subscription();
+        service?.fetchFeed(1)
+                ?.subscribeOn(Schedulers.newThread())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe({ feed: RssFeed ->
+                    onFeedAvailable(feed)
+                },
+                        { e: Throwable ->
+                            Log.w("MainActivity", "error ocurred :" + e)
+                        })
+
+    }
+
+    fun onFeedAvailable(feed: RssFeed) {
+        Log.d("MainActivity", " feed : " + feed.feeds?.size())
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

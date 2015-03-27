@@ -10,20 +10,15 @@ import java.util.List;
  */
 public class RssApplication extends Application {
 
-    private ObjectGraph objectGraph;
+//    private ObjectGraph objectGraph;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        objectGraph = ObjectGraph.create(getModules().toArray());
+//        objectGraph = ObjectGraph.create(getModules().toArray());
     }
 
-    private List<Object> getModules() {
-        return Arrays.<Object>asList(new AppModule(this));
-    }
 
-    public ObjectGraph getObjectGraph() {
-        return objectGraph;
-    }
+
 }
