@@ -1,6 +1,8 @@
 package theverge.model
 
 import android.text.Html
+import android.util.Log
+import org.jsoup.Jsoup
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 import java.io.InputStream
@@ -13,9 +15,18 @@ import javax.xml.parsers.DocumentBuilder
 data public class FeedItem (
 ) {
 
+    public var imageurl: String? = null;
+
     public var content: String? = null
-        [Element(name = "content")] set
         [Element(name = "content")] get
+        [Element(name = "content")] set(value) {
+            $content = value
+            val element: org.jsoup.nodes.Element? = Jsoup.parse(value).select("img").first();
+            imageurl = element?.attr("src")
+            if (imageurl == null) {
+                imageurl = element?.attr("data-src")
+            }
+        }
 
 
     var title: String? = null

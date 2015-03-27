@@ -27,12 +27,13 @@ public class MainActivity : BaseActivity() {
     public var handler: MainViewHandler? = null
         [Inject] set
 
-    private var feedAdapter = FeedAdapter()
+    private var feedAdapter: FeedAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        feedAdapter = FeedAdapter(this)
         recyclerView.setLayoutManager(LinearLayoutManager(this))
         recyclerView.setAdapter(feedAdapter)
     }
@@ -49,6 +50,7 @@ public class MainActivity : BaseActivity() {
                     onFeedAvailable(feed)
                 },
                         { e: Throwable ->
+                            e.printStackTrace()
                             Log.w("MainActivity", "error ocurred :" + e)
                         })
 
@@ -56,8 +58,8 @@ public class MainActivity : BaseActivity() {
 
     fun onFeedAvailable(feed: RssFeed) {
         Log.d("MainActivity", " feed : " + feed.feeds.size())
-        feedAdapter.feeds = feed.feeds
-        feedAdapter.notifyDataSetChanged()
+        feedAdapter?.feeds = feed.feeds
+        feedAdapter?.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

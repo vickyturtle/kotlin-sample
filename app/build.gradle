@@ -40,6 +40,8 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.24.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'org.jsoup:jsoup:1.8.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 buildscript {
     ext.kotlin_version = '0.11.91'
