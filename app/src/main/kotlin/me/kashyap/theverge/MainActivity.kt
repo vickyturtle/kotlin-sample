@@ -2,6 +2,7 @@ package me.kashyap.theverge
 
 import android.support.v7.app.ActionBarActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -14,10 +15,11 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
 import javax.inject.Inject
+import kotlinx.android.synthetic.activity_main.recyclerView
+import theverge.model.FeedItem
 
 
 public class MainActivity : BaseActivity() {
-
 
     public var service: RssService? = null
         [Inject] set
@@ -25,9 +27,14 @@ public class MainActivity : BaseActivity() {
     public var handler: MainViewHandler? = null
         [Inject] set
 
+    private var feedAdapter = FeedAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        recyclerView.setLayoutManager(LinearLayoutManager(this))
+        recyclerView.setAdapter(feedAdapter)
     }
 
     override fun onResume() {
@@ -48,8 +55,9 @@ public class MainActivity : BaseActivity() {
     }
 
     fun onFeedAvailable(feed: RssFeed) {
-        Log.d("MainActivity", " feed : " + feed.feeds?.size())
-
+        Log.d("MainActivity", " feed : " + feed.feeds.size())
+        feedAdapter.feeds = feed.feeds
+        feedAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

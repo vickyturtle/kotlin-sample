@@ -19,8 +19,8 @@ data public class FeedItem (
 
 
     var title: String? = null
-    //    [Element(name = "title")] title: String?,
-    //    [Element(name = "id")] id: String?
+        [Element(name = "title")] set
+        [Element(name = "title")] get
 
     var url: String? = null
         [Element(name = "id")] set
