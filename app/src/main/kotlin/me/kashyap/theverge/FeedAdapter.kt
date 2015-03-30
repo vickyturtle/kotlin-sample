@@ -15,19 +15,20 @@ import java.util.ArrayList
 /**
  * Created on 3/27/2015.
  */
-public class FeedAdapter(context : Context) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
     var feeds: List<FeedItem> = ArrayList()
 
-    var picasso : Picasso
+    var picasso: Picasso
+
     init {
-        picasso = Picasso.with(context)
+        this.picasso = picasso
     }
 
     override fun onBindViewHolder(viewHolder: FeedViewHolder, position: Int) {
         val feedItem = feeds.get(position)
         viewHolder.feedTitle.setText(feedItem.title);
-        if(!TextUtils.isEmpty(feedItem.imageurl)) {
+        if (!TextUtils.isEmpty(feedItem.imageurl)) {
             picasso.load(feedItem.imageurl).fit().into(viewHolder.feedImage)
         } else {
             picasso.load(R.drawable.abc_btn_check_to_on_mtrl_015).into(viewHolder.feedImage)

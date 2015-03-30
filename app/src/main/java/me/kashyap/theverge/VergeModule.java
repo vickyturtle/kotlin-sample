@@ -1,5 +1,7 @@
 package me.kashyap.theverge;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit.Endpoint;
@@ -14,11 +16,12 @@ import retrofit.converter.SimpleXMLConverter;
 public class VergeModule {
 
     //http://www.theverge.com/rss/index.xml
-    @Provides
+    @Singleton @Provides
     public Endpoint provideEndPoint() {
         return Endpoints.newFixedEndpoint("http://www.theverge.com/");
     }
 
+    @Singleton
     @Provides
     public Converter providesConverter() {
         return new SimpleXMLConverter();

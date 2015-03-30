@@ -9,8 +9,8 @@ import dagger.Provides;
 @Module(includes = VergeModule.class,
         injects = {
                 MainActivity.class
-        },
-        complete = false)
+        }
+)
 public class UiModule {
     @Provides
     public MainViewHandler providesMainViewHandler() {

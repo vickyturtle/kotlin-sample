@@ -1,5 +1,9 @@
 package me.kashyap.theverge;
 
+import android.content.Context;
+
+import com.squareup.picasso.Picasso;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -12,7 +16,7 @@ import retrofit.converter.Converter;
 /**
  * Created on 3/23/2015.
  */
-@Module(complete = false, library = true)
+@Module(complete = false)
 public class ApiModule {
 
     @Singleton
@@ -24,9 +28,16 @@ public class ApiModule {
                 .build();
     }
 
+    @Singleton
     @Provides
     public RssService providesRssService(RestAdapter adapter) {
         return adapter.create(RssService.class);
+    }
+
+    @Provides
+    @Singleton
+    public Picasso providesPicasso(Context context) {
+        return Picasso.with(context.getApplicationContext());
     }
 }
 

@@ -1,24 +1,29 @@
 package me.kashyap.theverge;
 
 import android.app.Application;
-
-import java.util.Arrays;
-import java.util.List;
+import android.content.Context;
 
 /**
  * Created on 3/23/2015.
  */
 public class RssApplication extends Application {
 
-//    private ObjectGraph objectGraph;
+    AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        objectGraph = ObjectGraph.create(getModules().toArray());
+        appComponent = AppComponent.Initializer.init(this);
+        appComponent.inject(this);
     }
 
+    public AppComponent getAppComponent() {
+        return appComponent;
+    }
+
+    static RssApplication getApp(Context context) {
+        return (RssApplication) context.getApplicationContext();
+    }
 
 
 }
