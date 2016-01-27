@@ -16,7 +16,7 @@ import retrofit.converter.Converter;
 /**
  * Created on 3/23/2015.
  */
-@Module(complete = false)
+@Module
 public class ApiModule {
 
     @Singleton

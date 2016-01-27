@@ -8,13 +8,13 @@ import java.util.ArrayList
 /**
  * Created on 3/23/2015.
  */
-[Root(name = "feed", strict = false)]
-public class RssFeed {
+@Root(name = "feed", strict = false)
+class RssFeed {
 
     var title: String? = null;
 
     var feeds: List<FeedItem> = ArrayList()
-        [ElementList(inline = true)] set
-        [ElementList(inline = true)] get
+        @ElementList(inline = true) set
+        @ElementList(inline = true) get
 
 }

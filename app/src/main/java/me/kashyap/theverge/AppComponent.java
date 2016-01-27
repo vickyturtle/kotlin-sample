@@ -1,6 +1,5 @@
 package me.kashyap.theverge;
 
-import android.app.Activity;
 import android.app.Application;
 
 import javax.inject.Singleton;
@@ -19,7 +18,7 @@ public interface AppComponent {
 
     final class Initializer {
         static AppComponent init(RssApplication rssApplication) {
-            return Dagger_AppComponent
+            return DaggerAppComponent
                     .builder()
                     .appModule(new AppModule(rssApplication))
                     .build();
