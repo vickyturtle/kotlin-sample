@@ -1,6 +1,5 @@
 package me.kashyap.theverge
 
-import android.support.v7.app.ActionBarActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -8,30 +7,25 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.activity_main.*
 import me.kashyap.theverge.model.RssFeed
 import me.kashyap.theverge.rest.RssService
-import retrofit.RestAdapter
-import rx.Scheduler
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
 import rx.schedulers.Schedulers
 import javax.inject.Inject
-import kotlinx.android.synthetic.activity_main.recyclerView
-import kotlinx.android.synthetic.activity_main.progressBar
-import theverge.model.FeedItem
 
 
 public class MainActivity : BaseActivity() {
 
     public var service: RssService? = null
-        [Inject] set
+        @Inject set
 
     public var handler: MainViewHandler? = null
-        [Inject] set
+        @Inject set
 
     public var picasso: Picasso? = null
-        [Inject] set
+        @Inject set
 
     private var feedAdapter: FeedAdapter? = null
 
@@ -41,17 +35,17 @@ public class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        RssApplication.getApp(this).appComponent.inject(this)
+        RssApplication.getApp(this).appComponent?.inject(this)
         feedAdapter = FeedAdapter(picasso!!)
-        recyclerView.setLayoutManager(LinearLayoutManager(this))
-        recyclerView.setAdapter(feedAdapter)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = feedAdapter
     }
 
     override fun onResume() {
         super.onResume();
-        Log.d("MainActivity", " On Resume Called :" + service + " ," + handler)
+        Log.d("MainActivity", " On Resume Called :$service ,$handler")
         //        var subscription: Subscription = Subscription();
-        progressBar.setVisibility(View.VISIBLE)
+        progressBar.visibility = View.VISIBLE
         subscription = service?.fetchFeed(1)
                 ?.subscribeOn(Schedulers.newThread())
                 ?.observeOn(AndroidSchedulers.mainThread())
@@ -60,7 +54,7 @@ public class MainActivity : BaseActivity() {
                 },
                         { e: Throwable ->
                             e.printStackTrace()
-                            progressBar.setVisibility(View.GONE)
+                            progressBar.visibility = View.GONE
                             Log.w("MainActivity", "error occurred :" + e)
                         })
 
@@ -72,15 +66,15 @@ public class MainActivity : BaseActivity() {
     }
 
     fun onFeedAvailable(feed: RssFeed) {
-        Log.d("MainActivity", " feed : " + feed.feeds.size())
-        progressBar.setVisibility(View.GONE)
+        Log.d("MainActivity", " feed : " + feed.feeds.size)
+        progressBar.visibility = View.GONE
         feedAdapter?.feeds = feed.feeds
         feedAdapter?.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
@@ -88,7 +82,7 @@ public class MainActivity : BaseActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item!!.getItemId()
+        val id = item!!.itemId
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true

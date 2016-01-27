@@ -1,6 +1,5 @@
 package me.kashyap.theverge
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -10,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import theverge.model.FeedItem
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created on 3/27/2015.
@@ -27,21 +26,21 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
 
     override fun onBindViewHolder(viewHolder: FeedViewHolder, position: Int) {
         val feedItem = feeds.get(position)
-        viewHolder.feedTitle.setText(feedItem.title);
+        viewHolder.feedTitle.text = feedItem.title;
         if (!TextUtils.isEmpty(feedItem.imageurl)) {
-            picasso.load(feedItem.imageurl).fit().into(viewHolder.feedImage)
+            picasso.load(feedItem.imageurl).fit().centerCrop().into(viewHolder.feedImage)
         } else {
             picasso.load(R.drawable.abc_btn_check_to_on_mtrl_015).into(viewHolder.feedImage)
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, type: Int): FeedViewHolder? {
-        val view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.feed_row, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.feed_row, viewGroup, false)
         return FeedViewHolder(view);
     }
 
     override fun getItemCount(): Int {
-        return feeds.size()
+        return feeds.size
     }
 
     public class FeedViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {

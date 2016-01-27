@@ -15,6 +15,3 @@ app and the procedures may not be best practices.
 * [Picasso](https://github.com/square/picasso)
 * Recycler View
 
-# What's not working
-* Most of the annotations don't work if used directly on Kotlin `Property`. However they work perfectly if used on `gettters` and `setters`
-* All Dagger modules have to be set in java only.
