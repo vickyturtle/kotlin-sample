@@ -25,7 +25,7 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
     }
 
     override fun onBindViewHolder(viewHolder: FeedViewHolder, position: Int) {
-        val feedItem = feeds[position]
+        val feedItem = feeds.get(position)
         viewHolder.feedTitle.text = feedItem.title;
         if (!TextUtils.isEmpty(feedItem.imageurl)) {
             picasso.load(feedItem.imageurl).fit().centerCrop().into(viewHolder.feedImage)

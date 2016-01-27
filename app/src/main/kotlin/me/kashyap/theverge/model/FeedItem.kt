@@ -1,12 +1,8 @@
 package theverge.model
 
-import android.text.Html
-import android.util.Log
 import org.jsoup.Jsoup
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
-import java.io.InputStream
-import javax.xml.parsers.DocumentBuilder
 
 /**
  * Created on 3/23/2015.

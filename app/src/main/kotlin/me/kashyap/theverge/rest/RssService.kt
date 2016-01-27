@@ -1,8 +1,8 @@
 package me.kashyap.theverge.rest
 
 import me.kashyap.theverge.model.RssFeed
-import retrofit.http.GET
-import retrofit.http.Query
+import retrofit2.http.GET
+import retrofit2.http.Query
 import rx.Observable
 
 /**

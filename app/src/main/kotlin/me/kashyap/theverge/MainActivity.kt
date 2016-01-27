@@ -35,7 +35,7 @@ public class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        RssApplication.getApp(this).appComponent.inject(this)
+        RssApplication.getApp(this).appComponent?.inject(this)
         feedAdapter = FeedAdapter(picasso!!)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = feedAdapter
