@@ -29,7 +29,7 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
         val feedItem = feeds.get(position)
         viewHolder.feedTitle.setText(feedItem.title);
         if (!TextUtils.isEmpty(feedItem.imageurl)) {
-            picasso.load(feedItem.imageurl).fit().into(viewHolder.feedImage)
+            picasso.load(feedItem.imageurl).fit().centerCrop().into(viewHolder.feedImage)
         } else {
             picasso.load(R.drawable.abc_btn_check_to_on_mtrl_015).into(viewHolder.feedImage)
         }
