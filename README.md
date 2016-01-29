@@ -13,5 +13,7 @@ app and the procedures may not be best practices.
 * [Rx Android](https://github.com/ReactiveX/RxAndroid)
 * [Jsoup](https://github.com/jhy/jsoup/)
 * [Picasso](https://github.com/square/picasso)
+* [Realm](https://realm.io/)
 * Recycler View
+* Added SyncAdapter too
 

@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import theverge.model.FeedItem
+import me.kashyap.theverge.db.FeedItem
+import theverge.model.TFeedItem
 import java.util.*
 
 /**
@@ -27,8 +28,8 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
     override fun onBindViewHolder(viewHolder: FeedViewHolder, position: Int) {
         val feedItem = feeds.get(position)
         viewHolder.feedTitle.text = feedItem.title;
-        if (!TextUtils.isEmpty(feedItem.imageurl)) {
-            picasso.load(feedItem.imageurl).fit().centerCrop().into(viewHolder.feedImage)
+        if (!TextUtils.isEmpty(feedItem.imageUrl)) {
+            picasso.load(feedItem.imageUrl).fit().centerCrop().into(viewHolder.feedImage)
         } else {
             picasso.load(R.drawable.abc_btn_check_to_on_mtrl_015).into(viewHolder.feedImage)
         }

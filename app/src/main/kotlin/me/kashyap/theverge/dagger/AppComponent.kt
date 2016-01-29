@@ -1,6 +1,9 @@
-package me.kashyap.theverge
+package me.kashyap.theverge.dagger
 
 import dagger.Component
+import me.kashyap.theverge.MainActivity
+import me.kashyap.theverge.RssApplication
+import me.kashyap.theverge.sync.SyncAdapter
 import javax.inject.Singleton
 
 /**
@@ -12,6 +15,7 @@ interface AppComponent {
 
     fun inject(activity: MainActivity)
     fun inject(application: RssApplication)
+    fun inject(adapter: SyncAdapter)
 
     object Initializer {
         internal fun init(rssApplication: RssApplication): AppComponent {

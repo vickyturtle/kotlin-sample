@@ -6,13 +6,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.squareup.picasso.Picasso
+import io.realm.RealmChangeListener
 import kotlinx.android.synthetic.activity_main.*
-import me.kashyap.theverge.model.RssFeed
+import me.kashyap.theverge.db.FeedItem
+import me.kashyap.theverge.rest.FeedStore
 import me.kashyap.theverge.rest.RssService
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -27,6 +28,10 @@ public class MainActivity : BaseActivity() {
     public var picasso: Picasso? = null
         @Inject set
 
+    @Inject lateinit var feedStore: FeedStore
+
+    private val logger = Logger.getLogger(javaClass)
+
     private var feedAdapter: FeedAdapter? = null
 
     private var subscription: Subscription? = null
@@ -39,6 +44,17 @@ public class MainActivity : BaseActivity() {
         feedAdapter = FeedAdapter(picasso!!)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = feedAdapter
+        logger.debug("on create")
+        feedStore.forceSync().subscribe ({ success ->
+            logger.debug("fetched feed $success")
+            if (success) {
+                fetchFeed()
+            }
+        })
+        { throwable ->
+            logger.warn(throwable)
+            Toast.makeText(this, throwable.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onResume() {
@@ -46,18 +62,17 @@ public class MainActivity : BaseActivity() {
         Log.d("MainActivity", " On Resume Called :$service ,$handler")
         //        var subscription: Subscription = Subscription();
         progressBar.visibility = View.VISIBLE
-        subscription = service?.fetchFeed(1)
-                ?.subscribeOn(Schedulers.newThread())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe({ feed: RssFeed ->
-                    onFeedAvailable(feed)
-                },
-                        { e: Throwable ->
-                            e.printStackTrace()
-                            progressBar.visibility = View.GONE
-                            Log.w("MainActivity", "error occurred :" + e)
-                        })
+        fetchFeed()
+    }
 
+    private fun fetchFeed() {
+        var queryFeeds = feedStore.queryFeeds()
+        queryFeeds?.addChangeListener(object : RealmChangeListener {
+            override fun onChange() {
+                queryFeeds.removeChangeListener(this)
+                onFeedAvailable(queryFeeds)
+            }
+        })
     }
 
     override fun onPause() {
@@ -65,10 +80,10 @@ public class MainActivity : BaseActivity() {
         subscription?.unsubscribe()
     }
 
-    fun onFeedAvailable(feed: RssFeed) {
-        Log.d("MainActivity", " feed : " + feed.feeds.size)
+    fun onFeedAvailable(feeds: List<FeedItem>) {
+        Log.d("MainActivity", " feed : " + feeds.size)
         progressBar.visibility = View.GONE
-        feedAdapter?.feeds = feed.feeds
+        feedAdapter?.feeds = feeds
         feedAdapter?.notifyDataSetChanged()
     }
 

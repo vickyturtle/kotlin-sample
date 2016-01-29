@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root
  * Created on 3/23/2015.
  */
 @Root(name = "entry", strict = false)
-data public class FeedItem (val imageUrl: String? = null) {
+data public class TFeedItem(val imageUrl: String? = null) {
 
     var imageurl: String? = null;
 
@@ -31,4 +31,12 @@ data public class FeedItem (val imageUrl: String? = null) {
     var url: String? = null
         @Element(name = "id") set
         @Element(name = "id") get
+
+    var published: String? = null
+        @Element(name = "published") set
+        @Element(name = "published") get
+
+    var updated: String? = null
+        @Element(name = "updated") set
+        @Element(name = "updated") get
 }

@@ -1,8 +1,10 @@
-package me.kashyap.theverge
+package me.kashyap.theverge.dagger
 
 import dagger.Module
 
 import dagger.Provides
+import me.kashyap.theverge.ApiModule
+import me.kashyap.theverge.BASE_URL
 import retrofit2.Converter
 import retrofit2.SimpleXmlConverterFactory
 import javax.inject.Named

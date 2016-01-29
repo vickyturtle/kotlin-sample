@@ -1,6 +1,6 @@
 package me.kashyap.theverge.rest
 
-import me.kashyap.theverge.model.RssFeed
+import me.kashyap.theverge.model.TRssFeed
 import retrofit2.http.GET
 import retrofit2.http.Query
 import rx.Observable
@@ -11,5 +11,5 @@ import rx.Observable
 public interface  RssService {
 
     @GET("/rss/full.xml")
-    public fun fetchFeed(@Query("page") page : Int) : Observable<RssFeed>;
+    public fun fetchFeed(@Query("page") page : Int) : Observable<TRssFeed>;
 }
