@@ -1,9 +1,10 @@
-package me.kashyap.theverge
+package me.kashyap.theverge.dagger
 
 import android.content.Context
 
 import dagger.Module
 import dagger.Provides
+import me.kashyap.theverge.RssApplication
 
 /**
  * Created on 3/23/2015.

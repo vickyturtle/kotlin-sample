@@ -22,6 +22,13 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    buildTypes.whenObjectAdded { buildType ->
+        print 'Build Type'
+        System.out.println("build type print")
+        print "Build type name $buildType.name"
+
+    }
 }
 
 dependencies {
@@ -30,6 +37,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.google.dagger:dagger:2.0.1'
     kapt 'com.google.dagger:dagger-compiler:2.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
     compile('com.squareup.retrofit2:converter-simplexml:2.0.0-beta3') {
@@ -43,12 +51,27 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'io.realm:realm-android:0.87.3'
+    kapt 'io.realm:realm-android:0.87.3'
 }
 
 kapt {
     generateStubs = true
 }
 
+def createSyncAdapterRes(variant) {
+    print variant.applicationId
+    variant.resValue "string", "package_name", variant.applicationId
+    variant.resValue "string", "account_type", variant.applicationId
+    variant.resValue "string", "content_authority", "${variant.applicationId}.sync.provider"
+}
+
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        createSyncAdapterRes(variant)
+    }
+}
 
 buildscript {
     ext.kotlin_version = '1.0.0-beta-4589'

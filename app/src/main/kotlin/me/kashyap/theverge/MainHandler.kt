@@ -3,39 +3,36 @@ package me.kashyap.theverge
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import io.realm.RealmChangeListener
+import me.kashyap.theverge.rest.FeedStore
+import rx.Observable
 import javax.inject.Inject
 
 /**
  * Created on 3/24/2015.
  */
-public class MainHandler : MainViewHandler {
+public class MainHandler @Inject constructor(private val feedStore: FeedStore) : MainViewHandler {
 
 
     override fun onActivityPaused(activity: Activity?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivityStarted(activity: Activity?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivityStopped(activity: Activity?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        throw UnsupportedOperationException()
     }
 
     override fun onActivityResumed(activity: Activity?) {
-        throw UnsupportedOperationException()
+
     }
 }
