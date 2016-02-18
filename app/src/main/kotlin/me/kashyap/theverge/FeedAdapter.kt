@@ -1,5 +1,6 @@
 package me.kashyap.theverge
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -15,7 +16,7 @@ import java.util.*
 /**
  * Created on 3/27/2015.
  */
-public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
 
     var feeds: List<FeedItem> = ArrayList()
 
@@ -31,7 +32,14 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
         if (!TextUtils.isEmpty(feedItem.imageUrl)) {
             picasso.load(feedItem.imageUrl).fit().centerCrop().into(viewHolder.feedImage)
         } else {
-            picasso.load(R.drawable.abc_btn_check_to_on_mtrl_015).into(viewHolder.feedImage)
+            viewHolder.feedImage.setImageDrawable(null)
+        }
+        viewHolder.parent.setOnClickListener {
+            val extra = FeedDetailsActivity.getExtra(feedItem.feedId)
+            val context = viewHolder.parent.context
+            val intent = Intent(context, FeedDetailsActivity::class.java)
+            intent.putExtras(extra)
+            context.startActivity(intent)
         }
     }
 
@@ -44,14 +52,16 @@ public class FeedAdapter(picasso: Picasso) : RecyclerView.Adapter<FeedAdapter.Fe
         return feeds.size
     }
 
-    public class FeedViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FeedViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var feedImage: ImageView
         var feedTitle: TextView
+        var parent: View
 
         init {
             feedImage = itemView.findViewById(R.id.feedRowImage) as ImageView
             feedTitle = itemView.findViewById(R.id.feedText) as TextView
+            parent = itemView.findViewById(R.id.feedRow)
         }
     }
 }

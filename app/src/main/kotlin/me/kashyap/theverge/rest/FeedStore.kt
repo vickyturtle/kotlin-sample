@@ -1,12 +1,9 @@
 package me.kashyap.theverge.rest
 
+import io.realm.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-import io.realm.Realm
-import io.realm.RealmChangeListener
-import io.realm.RealmQuery
-import io.realm.RealmResults
 import me.kashyap.theverge.Logger
 import me.kashyap.theverge.db.FeedItem
 import me.kashyap.theverge.model.TRssFeed
@@ -30,6 +27,7 @@ class FeedStore
 constructor(private val rssService: RssService) {
 
     private val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.US)
+    private val MAX_ARTICLE_COUNT = 50
     private val logger = Logger.getLogger(javaClass)
 
     fun sync() {
@@ -46,6 +44,16 @@ constructor(private val rssService: RssService) {
         realm.beginTransaction()
         realm.copyToRealmOrUpdate(feeds)
         realm.commitTransaction()
+        val count = realm.where(FeedItem::class.java).count()
+        logger.debug("feed item count " + count)
+        if(MAX_ARTICLE_COUNT < count ) {
+            realm.beginTransaction()
+            val feedItems = realm.where(FeedItem::class.java).findAllSorted("updatedAt", Sort.DESCENDING)
+            for (i in MAX_ARTICLE_COUNT..feedItems.size) {
+                feedItems[i].removeFromRealm()
+            }
+            realm.commitTransaction()
+        }
         realm.close()
     }
 
@@ -63,10 +71,12 @@ constructor(private val rssService: RssService) {
 //        }
     }
 
-    fun queryFeeds(): RealmResults<FeedItem>? {
-        val realm = Realm.getDefaultInstance()
-        val count = realm.where(FeedItem::class.java).count()
-        val feedItems = realm.where(FeedItem::class.java).findAllAsync()
+    fun queryFeeds(realm: Realm): RealmResults<FeedItem>? {
+        val feedItems = realm.where(FeedItem::class.java).findAllSortedAsync("updatedAt", Sort.DESCENDING)
         return feedItems
+    }
+
+    fun queryFeed(realm: Realm, feedId: Long): FeedItem? {
+        return realm.where(FeedItem::class.java).equalTo("feedId", feedId).findFirstAsync()
     }
 }
