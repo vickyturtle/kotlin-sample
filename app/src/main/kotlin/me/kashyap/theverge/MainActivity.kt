@@ -8,8 +8,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.squareup.picasso.Picasso
+import io.realm.Realm
 import io.realm.RealmChangeListener
-import kotlinx.android.synthetic.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.*
 import me.kashyap.theverge.db.FeedItem
 import me.kashyap.theverge.rest.FeedStore
 import me.kashyap.theverge.rest.RssService
@@ -17,24 +18,23 @@ import rx.Subscription
 import javax.inject.Inject
 
 
-public class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity() {
 
-    public var service: RssService? = null
+    var service: RssService? = null
         @Inject set
 
-    public var handler: MainViewHandler? = null
+    var handler: MainViewHandler? = null
         @Inject set
 
-    public var picasso: Picasso? = null
+    var picasso: Picasso? = null
         @Inject set
 
     @Inject lateinit var feedStore: FeedStore
 
     private val logger = Logger.getLogger(javaClass)
-
     private var feedAdapter: FeedAdapter? = null
-
     private var subscription: Subscription? = null
+    private var realm: Realm? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +57,16 @@ public class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        realm = Realm.getDefaultInstance()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        realm?.close();
+    }
+
     override fun onResume() {
         super.onResume();
         Log.d("MainActivity", " On Resume Called :$service ,$handler")
@@ -66,7 +76,7 @@ public class MainActivity : BaseActivity() {
     }
 
     private fun fetchFeed() {
-        var queryFeeds = feedStore.queryFeeds()
+        var queryFeeds = feedStore.queryFeeds(realm!!)
         queryFeeds?.addChangeListener(object : RealmChangeListener {
             override fun onChange() {
                 queryFeeds.removeChangeListener(this)
