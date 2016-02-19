@@ -15,6 +15,7 @@ import me.kashyap.theverge.db.FeedItem
 import me.kashyap.theverge.rest.FeedStore
 import me.kashyap.theverge.rest.RssService
 import rx.Subscription
+import java.util.*
 import javax.inject.Inject
 
 
@@ -59,11 +60,15 @@ class MainActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
+        progressBar.visibility = View.VISIBLE
         realm = Realm.getDefaultInstance()
+        fetchFeed()
     }
 
     override fun onStop() {
         super.onStop()
+        subscription?.unsubscribe()
+        feedAdapter?.feeds = ArrayList()
         realm?.close();
     }
 
@@ -71,8 +76,6 @@ class MainActivity : BaseActivity() {
         super.onResume();
         Log.d("MainActivity", " On Resume Called :$service ,$handler")
         //        var subscription: Subscription = Subscription();
-        progressBar.visibility = View.VISIBLE
-        fetchFeed()
     }
 
     private fun fetchFeed() {
@@ -87,7 +90,6 @@ class MainActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        subscription?.unsubscribe()
     }
 
     fun onFeedAvailable(feeds: List<FeedItem>) {

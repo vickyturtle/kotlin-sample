@@ -49,8 +49,9 @@ constructor(private val rssService: RssService) {
         if(MAX_ARTICLE_COUNT < count ) {
             realm.beginTransaction()
             val feedItems = realm.where(FeedItem::class.java).findAllSorted("updatedAt", Sort.DESCENDING)
-            for (i in MAX_ARTICLE_COUNT..feedItems.size) {
-                feedItems[i].removeFromRealm()
+            while (MAX_ARTICLE_COUNT < feedItems.size) {
+                logger.debug("feedItem size ${feedItems.size}")
+                feedItems[MAX_ARTICLE_COUNT].removeFromRealm()
             }
             realm.commitTransaction()
         }

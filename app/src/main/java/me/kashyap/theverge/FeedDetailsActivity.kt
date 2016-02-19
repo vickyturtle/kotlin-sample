@@ -3,7 +3,6 @@ package me.kashyap.theverge
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
 import com.squareup.picasso.Picasso
 import io.realm.Realm
 import io.realm.RealmChangeListener
@@ -56,8 +55,9 @@ class FeedDetailsActivity : AppCompatActivity() {
     private fun onContentAvailable(feedItem: FeedItem?) {
         toolbarLayout.title = feedItem!!.title
         toolbarLayout.setExpandedTitleColor(Color.TRANSPARENT)
-        var html = "<h1>" + feedItem.title + "</h1>" + feedItem.html
-        webview.loadData(html, "text/html", "UTF-8")
+        var html = "<h1>" + feedItem.title + "</h1>" + feedItem.html + "<br/><br/>"
+//        webview.loadData(html, "text/html", "UTF-8")
+        webview.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null)
         picasso.load(feedItem.imageUrl).fit().centerCrop().into(coverImage)
     }
 
